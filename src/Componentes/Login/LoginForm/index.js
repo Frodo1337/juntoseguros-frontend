@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import firebase from "../../../conexaodb.js";
+import firebaseSingle from "../../../conexaodbSingle.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -8,18 +10,18 @@ class LoginForm extends Component{
     super(props);
 
     this.state = {
-      login: "",
+      email: "",
       senha: ""
     };
 
-    this.setLogin = this.setLogin.bind(this);
+    this.setEmail = this.setEmail.bind(this);
     this.setSenha = this.setSenha.bind(this);
     this.showCadastro = this.showCadastro.bind(this);
     this.login = this.login.bind(this);
   }
 
-  setLogin(e){
-    this.setState({login: e.target.value});
+  setEmail(e){
+    this.setState({email: e.target.value});
   }
 
   setSenha(e){
@@ -36,7 +38,15 @@ class LoginForm extends Component{
   }
 
   login(e){
+    firebaseSingle.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
+    .then(()=>{
+        this.props.history.replace("/lista");
+    })
+    .catch((error) =>  {
+      alert(error.code);
+    });
 
+    e.preventDefault();
   }
 
   render(){
@@ -49,9 +59,9 @@ class LoginForm extends Component{
               <div className = "col">
                 <div className = "form-group">
                   <span className = "float-left">
-                    Nome de usuário:
+                    Endereço de e-mail:
                   </span>
-                  <input className = "form-control form-control-sm campoTransparenteComBordas" type = "text" onChange = {this.setLogin}/>
+                  <input className = "form-control form-control-sm campoTransparenteComBordas" type = "email" onChange = {this.setEmail} />
                 </div>
               </div>
             </div>
@@ -61,16 +71,14 @@ class LoginForm extends Component{
                 <span className = "float-left">
                   Senha:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha}/>
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha} />
               </div>
             </div>
             {/*Submit do formulário*/}
             <div className = "row mt-2">
               <div className = "col">
                 <center>
-                  <Link to = "/lista">
-                    <button className = "btn btn-success btn-sm">Login</button>
-                  </Link>
+                  <input className = "btn btn-success btn-sm" type = "submit" value = "Login"/>
                 </center>
               </div>
             </div>

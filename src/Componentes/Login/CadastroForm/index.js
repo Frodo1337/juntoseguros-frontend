@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import firebase from "../../../conexaodb.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -52,6 +53,8 @@ class CadastroForm extends Component{
       window.alert("As senhas não conferem");
     }
     else{
+      firebase.cadastra(this.state.login, this.state.senha);
+
       window.alert("Usuário cadastrado com sucesso!");
     }
 

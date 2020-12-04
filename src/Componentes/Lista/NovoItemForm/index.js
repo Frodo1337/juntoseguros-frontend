@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Axios from "axios";
 import database from "../../../conexaodb.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
@@ -23,11 +24,14 @@ class NovoItemForm extends Component{
   criarNovoItem(){
     let novaTarefa = this.state.tarefa;
 
+
     //Tarefa vazia, notifica o usuário
     if(novaTarefa === ""){
       window.alert("Tarefa em branco");
     }
     else{
+      Axios.post("http://127.0.0.1:5000/tarefas/nova/" + this.props.uid + "&" + novaTarefa);
+
       window.alert("Tarefa cadastrada com sucesso!");
     }
   }
@@ -53,7 +57,7 @@ class NovoItemForm extends Component{
               </span>
             </div>
             <div className = "col col-sm">
-              <input className = "form-control" type = "text" id = "inputTarefa"/>
+              <input className = "form-control" type = "text" id = "inputTarefa" onChange = {this.setTarefa}/>
             </div>
             <div className = "col col-sm-1 mt-1">
               <button className = "btn btn-success btn-sm" onClick = {this.criarNovoItem}>
