@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import Axios from "axios";
-import database from "../../../conexaodb.js";
+import ApiHandler from "../../../api.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -21,18 +20,18 @@ class NovoItemForm extends Component{
     this.setState({tarefa: e.target.value});
   }
 
-  criarNovoItem(){
+  async criarNovoItem(){
     let novaTarefa = this.state.tarefa;
-
 
     //Tarefa vazia, notifica o usuário
     if(novaTarefa === ""){
       window.alert("Tarefa em branco");
     }
     else{
-      Axios.post("http://127.0.0.1:5000/tarefas/nova/" + this.props.uid + "&" + novaTarefa);
-
-      window.alert("Tarefa cadastrada com sucesso!");
+      await ApiHandler.post("/tarefas/nova/" + this.props.uid + "&" + novaTarefa);
+      await this.props.fetch()
+      //Limpa a barra de input
+      document.getElementById("inputTarefa").value = "";
     }
   }
 

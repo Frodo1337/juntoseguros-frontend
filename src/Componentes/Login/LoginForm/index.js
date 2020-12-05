@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
 import firebase from "../../../conexaodb.js";
-import firebaseSingle from "../../../conexaodbSingle.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -38,14 +36,7 @@ class LoginForm extends Component{
   }
 
   login(e){
-    firebaseSingle.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
-    .then(()=>{
-        this.props.history.replace("/lista");
-    })
-    .catch((error) =>  {
-      alert(error.code);
-    });
-
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha);
     e.preventDefault();
   }
 
@@ -61,7 +52,7 @@ class LoginForm extends Component{
                   <span className = "float-left">
                     Endereço de e-mail:
                   </span>
-                  <input className = "form-control form-control-sm campoTransparenteComBordas" type = "email" onChange = {this.setEmail} />
+                  <input className = "form-control form-control-sm campoTransparenteComBordas" type = "email" onChange = {this.setEmail} required/>
                 </div>
               </div>
             </div>
@@ -71,7 +62,7 @@ class LoginForm extends Component{
                 <span className = "float-left">
                   Senha:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha} />
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha} required/>
               </div>
             </div>
             {/*Submit do formulário*/}

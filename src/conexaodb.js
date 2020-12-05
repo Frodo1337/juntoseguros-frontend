@@ -13,33 +13,8 @@ let firebaseConfig = {
   appId: "1:330907459321:web:458d26e7618e78289c0c28"
  };
 
-class Firebase{
-  constructor(){
-    app.initializeApp(firebaseConfig);
+app.initializeApp(firebaseConfig);
 
-    this.app = app.database();
-  }
+var firebase = app;
 
-  cadastra(email, senha){
-    app.auth().createUserWithEmailAndPassword(email, senha)
-    .then(data => {
-      let chave = data.user.uid;
-    })
-    .catch((error) => {
-      if(error.code == "auth/invalid-email"){
-        alert("Endereço de e-mail inválido");
-      }
-      else if(error.code == "auth/weak-password"){
-        alert("A senha não atinge os requisitos de segurança");
-      }
-      else if(error.code == "auth/email-already-in-use"){
-        alert("E-mail \"" + email + "\" já está em uso, por favor utilize outro e-mail");
-      }
-      else{
-        alert("Erro: " + error.code);
-      }
-    });
-  }
-}
-
-export default new Firebase();
+export default firebase;
