@@ -1,14 +1,19 @@
 import React, {Component} from "react";
 import LoginForm from "./LoginForm";
 import CadastroForm from "./CadastroForm";
-import database from "../../conexaodb.js";
-import Sessao from "../../Sessao/sessao.js";
+import firebase from "../../conexaodb.js"
 import "../../css/styleGeral.css";
 import "./style.css";
 
 class Login extends Component{
   constructor(props){
     super(props);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user){
+        this.props.history.replace("/lista");
+      }
+    });
   }
 
   render(){

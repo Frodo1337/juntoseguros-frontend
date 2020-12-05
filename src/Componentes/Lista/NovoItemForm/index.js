@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import database from "../../../conexaodb.js";
+import ApiHandler from "../../../api.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -20,7 +20,7 @@ class NovoItemForm extends Component{
     this.setState({tarefa: e.target.value});
   }
 
-  criarNovoItem(){
+  async criarNovoItem(){
     let novaTarefa = this.state.tarefa;
 
     //Tarefa vazia, notifica o usuário
@@ -28,7 +28,10 @@ class NovoItemForm extends Component{
       window.alert("Tarefa em branco");
     }
     else{
-      window.alert("Tarefa cadastrada com sucesso!");
+      await ApiHandler.post("/tarefas/nova/" + this.props.uid + "&" + novaTarefa);
+      await this.props.fetch()
+      //Limpa a barra de input
+      document.getElementById("inputTarefa").value = "";
     }
   }
 
@@ -53,7 +56,7 @@ class NovoItemForm extends Component{
               </span>
             </div>
             <div className = "col col-sm">
-              <input className = "form-control" type = "text" id = "inputTarefa"/>
+              <input className = "form-control" type = "text" id = "inputTarefa" onChange = {this.setTarefa}/>
             </div>
             <div className = "col col-sm-1 mt-1">
               <button className = "btn btn-success btn-sm" onClick = {this.criarNovoItem}>

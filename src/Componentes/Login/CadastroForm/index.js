@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import firebase from "../../../conexaodb.js";
 import "../../../css/styleGeral.css";
 import "./style.css";
 
@@ -52,7 +53,24 @@ class CadastroForm extends Component{
       window.alert("As senhas não conferem");
     }
     else{
-      window.alert("Usuário cadastrado com sucesso!");
+      firebase.auth().createUserWithEmailAndPassword(nomeUsuario, senha)
+      .then(data => {
+        window.alert("Usuário cadastrado com sucesso!");
+      })
+      .catch((error) => {
+        if(error.code === "auth/invalid-email"){
+          alert("Endereço de e-mail inválido");
+        }
+        else if(error.code === "auth/weak-password"){
+          alert("A senha não atinge os requisitos de segurança");
+        }
+        else if(error.code === "auth/email-already-in-use"){
+          alert("E-mail \"" + nomeUsuario + "\" já está em uso, por favor utilize outro e-mail");
+        }
+        else{
+          alert("Erro: " + error.code);
+        }
+      });
     }
 
     e.preventDefault();
@@ -87,7 +105,7 @@ class CadastroForm extends Component{
                 <span className = "float-left">
                   Nome de usuário:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "text" onChange = {this.setLogin}/>
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "text" onChange = {this.setLogin} required/>
               </div>
             </div>
             {/*Campo de senha*/}
@@ -96,7 +114,7 @@ class CadastroForm extends Component{
                 <span className = "float-left">
                   Senha:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha}/>
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setSenha} required/>
               </div>
             </div>
             {/*Campo de confirmação de senha*/}
@@ -105,7 +123,7 @@ class CadastroForm extends Component{
                 <span className = "float-left">
                   Confirme a Senha:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setConfSenha}/>
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "password" onChange = {this.setConfSenha} required/>
               </div>
             </div>
             {/*Submit do formulário de cadastro e cancelamento*/}
