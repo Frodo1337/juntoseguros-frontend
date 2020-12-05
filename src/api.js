@@ -2,8 +2,8 @@ import Axios from "axios";
 
 class ApiHandler{
   constructor(){
-    this.url = "http://minhatodolist.ddns.net:5000";
-    //this.url = "http://127.0.0.1:5000";
+    //this.url = "http://minhatodolist.ddns.net:5000";
+    this.url = "http://127.0.0.1:5000";
   }
 
   async get(params){
