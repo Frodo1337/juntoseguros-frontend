@@ -103,9 +103,9 @@ class CadastroForm extends Component{
             <div className = "row">
               <div className = "col">
                 <span className = "float-left">
-                  Nome de usuário:
+                  Endereço de e-mail:
                 </span>
-                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "text" onChange = {this.setLogin} required/>
+                <input className = "form-control form-control-sm campoTransparenteComBordas" type = "email" onChange = {this.setLogin} required/>
               </div>
             </div>
             {/*Campo de senha*/}
